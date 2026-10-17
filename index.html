@@ -16,6 +16,10 @@
       --max: 1120px;
       --header-bg: #080908;
       --header-text: #e8eae5;
+      --tile-1: #e3f2c9;
+      --tile-2: #d9f4df;
+      --tile-3: #f4f0b8;
+      --tile-border: #cbd9c3;
     }
 
     [data-theme="dark"] {
@@ -27,6 +31,10 @@
       --line: #2e332b;
       --header-bg: #080908;
       --header-text: #e8eae5;
+      --tile-1: #1e2618;
+      --tile-2: #18261e;
+      --tile-3: #262418;
+      --tile-border: #2e3828;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -42,7 +50,7 @@
     
     .menu-container { display: flex; align-items: center; gap: 20px; }
     .menu { display: flex; align-items: center; gap: 28px; color: var(--header-text); font-size: 13px; }
-    .menu a:hover { color: #26c934; }
+    .menu a:hover { color: var(--green); }
     
     .btn { display: inline-flex; justify-content: center; align-items: center; gap: 8px; padding: 12px 18px; border: 1px solid var(--ink); background: var(--ink); color: var(--paper); font-size: 13px; font-weight: 650; transition: background .2s, color .2s, border-color .2s; cursor: pointer; }
     .btn:hover { background: var(--green); border-color: var(--green); color: #fff; }
@@ -66,17 +74,10 @@
     .proof { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 28px; color: var(--muted); font-size: 12px; }
     .proof b { color: var(--ink); font-weight: 600; }
     
-    /* Contenedor y formato del video corregido a 3:4 con object-fit: contain */
-    .video-frame { position: relative; margin-top: 48px; max-width: 320px; margin-inline: auto; border: 1px solid var(--line); background: var(--white); }
-    .video-inner { overflow: hidden; background: #080908; display: flex; justify-content: center; position: relative; width: 100%; aspect-ratio: 3 / 4; }
-    .video-portada { 
-      width: 100%; 
-      height: 100%; 
-      object-fit: contain; 
-      display: block; 
-      margin-inline: auto; 
-      background: #080908; 
-    }
+    /* Video adaptado sin recortes (9:16 con contain) */
+    .video-frame { position: relative; margin-top: 64px; max-width: 440px; margin-inline: auto; border: 1px solid var(--line); background: var(--white); }
+    .video-inner { overflow: hidden; background: #080908; display: flex; justify-content: center; position: relative; }
+    .video-portada { width: 100%; max-width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: contain; display: block; margin-inline: auto; background: #080908; }
     
     .video-tag { position: absolute; top: 16px; left: 16px; background: var(--paper); color: var(--ink); font-size: 10px; font-weight: 700; letter-spacing: 1.5px; padding: 8px 10px; text-transform: uppercase; z-index: 2; }
     .sound-toggle { position: absolute; right: 16px; bottom: 16px; z-index: 3; border: 1px solid rgba(255,255,255,.65); background: rgba(8,9,8,.82); color: #fff; padding: 11px 14px; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; backdrop-filter: blur(8px); }
@@ -96,9 +97,11 @@
     
     .showcase { background: var(--white); border-block: 1px solid var(--line); }
     .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-    .tile { min-height: 250px; padding: 23px; border: 1px solid var(--line); background: var(--paper); display: flex; flex-direction: column; justify-content: space-between; }
+    .tile { min-height: 250px; padding: 23px; border: 1px solid var(--tile-border); background: var(--tile-1); display: flex; flex-direction: column; justify-content: space-between; }
+    .tile:nth-child(2) { background: var(--tile-2); }
+    .tile:nth-child(3) { background: var(--tile-3); }
     .tile small { color: var(--muted); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; }
-    .tile strong { display: block; font-size: clamp(30px, 3.8vw, 46px); font-weight: 800; line-height: .94; letter-spacing: -.065em; }
+    .tile strong { display: block; font-size: clamp(30px, 3.8vw, 46px); font-weight: 800; line-height: .94; letter-spacing: -.065em; color: var(--ink); }
     .tile p { color: var(--muted); font-size: 13px; margin-top: 12px; }
     .note { color: var(--muted); font-size: 11px; margin-top: 14px; }
     
@@ -151,7 +154,7 @@
       .contact { grid-template-columns: 1fr; gap: 28px; }
       .services, .tiles, .steps { grid-template-columns: 1fr; }
       .card, .card + .card { padding: 22px 0; border-left: 0; }
-      .video-frame { margin-top: 42px; max-width: 280px; }
+      .video-frame { margin-top: 42px; }
       section { padding: 62px 0; }
     }
 
@@ -163,6 +166,13 @@
       will-change: opacity, transform;
     }
     .reveal.is-visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: .10s; }
+    .reveal-delay-2 { transition-delay: .20s; }
+    .reveal-delay-3 { transition-delay: .30s; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; will-change: auto; }
+      html { scroll-behavior: auto; }
+    }
   </style>
 </head>
 <body>
@@ -266,35 +276,4 @@
         <option>Edición de videos</option>
         <option>Estrategia de contenido</option>
         <option>Mejora de perfiles</option>
-        <option>Asesoría general</option>
-        <option>Todavía no lo sé</option>
-      </select>
-      <label for="detalles">Cuéntame un poco más</label><textarea id="detalles" name="detalles" placeholder="¿Qué hace tu negocio y qué te gustaría mejorar?"></textarea>
-      <button class="btn" type="submit">Preparar mensaje por WhatsApp ↗</button>
-      <p id="mensaje" role="status" aria-live="polite"></p>
-    </form>
-  </section>
-</main>
-
-<footer>
-  <div class="wrap foot">
-    <a class="logo" href="#inicio" aria-label="Impulse Studio, inicio"><img src="logo.jpg" alt="Logo de Impulse Studio"></a>
-    <span>Dirección creativa · Video · Contenido digital</span>
-    <span>© <span id="anio"></span> Impulse Studio</span>
-  </div>
-</footer>
-
-<script>
-  // Modo Oscuro / Claro Toggle y Persistencia
-  const themeToggle = document.getElementById("themeToggle");
-  const savedTheme = localStorage.getItem("theme") || "light";
-  document.documentElement.setAttribute("data-theme", savedTheme);
-  themeToggle.textContent = savedTheme === "dark" ? "☀️" : "🌙";
-
-  themeToggle.addEventListener("click", () => {
-    const currentTheme = document.documentElement.getAttribute("data-theme");
-    const newTheme = currentTheme === "dark" ? "light" : "dark";
-    document.documentElement.setAttribute("data-theme", newTheme);
-    localStorage.setItem("theme", newTheme);
-    themeToggle.textContent = newTheme === "dark" ? "☀️" : "🌙";
-  });
+        <option>Asesoría
