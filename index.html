@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Videos creativos, contenido digital y estrategias para hacer destacar tu marca.">
+  <title>Impulse Studio | Haz que tu marca destaque</title>
+  <style>
+    :root {
+      --paper: #f8f8f5;
+      --white: #ffffff;
+      --ink: #171815;
+      --muted: #686b63;
+      --green: #0a941b;
+      --line: #dedfd8;
+      --max: 1120px;
+      --header-bg: #080908;
+      --header-text: #e8eae5;
+    }
+
+    [data-theme="dark"] {
+      --paper: #121311;
+      --white: #1a1c18;
+      --ink: #f0f2ed;
+      --muted: #a0a39b;
+      --green: #26c934;
+      --line: #2e332b;
+      --header-bg: #080908;
+      --header-text: #e8eae5;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--paper); color: var(--ink); font-family: Inter, "Helvetica Neue", Arial, sans-serif; line-height: 1.55; transition: background 0.3s ease, color 0.3s ease; }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(var(--max), 88%); margin-inline: auto; }
+    
+    header { background: var(--header-bg); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--line); }
+    nav { min-height: 82px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+    .logo { display: inline-flex; align-items: center; flex: 0 0 auto; background: var(--header-bg); padding: 8px 0; }
+    .logo img { display: block; width: 220px; max-width: 40vw; height: auto; object-fit: contain; }
+    
+    .menu-container { display: flex; align-items: center; gap: 20px; }
+    .menu { display: flex; align-items: center; gap: 28px; color: var(--header-text); font-size: 13px; list-style: none; }
+    .menu a:hover { color: var(--green); }
+    
+    .btn { display: inline-flex; justify-content: center; align-items: center; gap: 8px; padding: 12px 18px; border: 1px solid var(--ink); background: var(--ink); color: var(--paper); font-size: 13px; font-weight: 650; transition: background .2s, color .2s, border-color .2s; cursor: pointer; }
+    .btn:hover { background: var(--green); border-color: var(--green); color: #fff; }
+
+    .theme-toggle { background: transparent; border: 1px solid var(--line); color: var(--header-text); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; transition: border-color .2s; }
+    .theme-toggle:hover { border-color: var(--green); }
+
+    .hamburger { display: none; flex-direction: column; justify-content: space-between; width: 28px; height: 20px; background: transparent; border: none; cursor: pointer; z-index: 120; }
+    .hamburger span { display: block; width: 100%; height: 2px; background: var(--header-text); transition: transform 0.3s ease, opacity 0.3s ease; }
+    .hamburger.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+    .hero { padding-top: clamp(70px, 10vw, 135px); padding-bottom: 80px; }
+    .eyebrow { display: block; color: var(--green); font-size: 11px; font-weight: 800; letter-spacing: 2.2px; text-transform: uppercase; }
+    h1 { max-width: 980px; font-size: clamp(52px, 8.7vw, 108px); font-weight: 760; line-height: .94; letter-spacing: -.075em; margin: 24px 0; }
+    h1 .accent { color: var(--green); }
+    .lead { color: var(--muted); font-size: clamp(16px, 1.8vw, 20px); max-width: 610px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    
+    .video-frame { position: relative; margin-top: 64px; max-width: 440px; margin-inline: auto; border: 1px solid var(--line); background: var(--white); }
+    .video-inner { overflow: hidden; background: #080908; display: flex; justify-content: center; position: relative; }
+    .video-portada { width: 100%; max-width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: contain; display: block; margin-inline: auto; background: #080908; }
+    
+    .video-tag { position: absolute; top: 16px; left: 16px; background: var(--paper); color: var(--ink); font-size: 10px; font-weight: 700; letter-spacing: 1.5px; padding: 8px 10px; text-transform: uppercase; z-index: 2; }
+    .sound-toggle { position: absolute; right: 16px; bottom: 16px; z-index: 3; border: 1px solid rgba(255,255,255,.65); background: rgba(8,9,8,.82); color: #fff; padding: 11px 14px; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; backdrop-filter: blur(8px); }
+    .sound-toggle:hover { background: var(--green); border-color: var(--green); }
+    
+    section { padding: 86px 0; }
+    .section-head { max-width: 690px; margin-bottom: 34px; }
+    h2 { font-size: clamp(40px, 5.5vw, 70px); font-weight: 720; line-height: .99; letter-spacing: -.065em; margin: 14px 0 20px; }
+    .muted { color: var(--muted); max-width: 640px; }
+    
+    .services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--line); }
+    .card { padding: 28px 25px 28px 0; border-bottom: 1px solid var(--line); }
+    .card + .card { padding-left: 25px; border-left: 1px solid var(--line); }
+    .icon { color: var(--green); font-size: 22px; font-weight: 600; }
+    .card h3 { margin: 20px 0 9px; font-size: 22px; font-weight: 750; letter-spacing: -.035em; }
+    .card p { color: var(--muted); font-size: 14px; max-width: 310px; }
+
+    .contact-section { border-top: 1px solid var(--line); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .contact-form { display: flex; flex-direction: column; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--muted); }
+    .form-group input, .form-group textarea { padding: 12px; border: 1px solid var(--line); background: var(--white); color: var(--ink); font-family: inherit; font-size: 14px; }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+
+    footer { background: var(--header-bg); color: var(--header-text); padding: 40px 0; border-top: 1px solid var(--line); font-size: 13px; }
+    .footer-wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+    .footer-links { display: flex; align-items: center; gap: 28px; color: var(--header-text); font-size: 13px; list-style: none; }
+    .footer-links a:hover { color: var(--green); }
+
+    @media (max-width: 868px) {
+      .hamburger { display: flex; }
+      .menu { position: fixed; top: 82px; left: 0; right: 0; background: var(--header-bg); flex-direction: column; padding: 30px; border-bottom: 1px solid var(--line); transform: translateY(-150%); transition: transform 0.3s ease; }
+      .menu.active { transform: translateY(0); }
+      .services { grid-template-columns: 1fr; }
+      .card + .card { padding-left: 0; border-left: none; }
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="wrap">
+      <nav>
+        <a href="#" class="logo">
+          <img src="logo.jpg" alt="Impulse Studio Logo">
+        </a>
+        <div class="menu-container">
+          <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">🌙</button>
+          <button class="hamburger" id="hamburger" aria-expanded="false" aria-label="Abrir menú">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <ul class="menu" id="menu">
+            <li><a href="#servicios" class="menu-link">Servicios</a></li>
+            <li><a href="#contacto" class="menu-link">Contacto</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero wrap">
+      <span class="eyebrow">Agencia Creativa & Digital</span>
+      <h1>Haz que tu marca <span class="accent">destaque</span> y convierta.</h1>
+      <p class="lead">Creamos estrategias digitales, edición de video profesional e imagen de marca pensadas para potenciar tu presencia y conectar con tu audiencia.</p>
+      <div class="actions">
+        <a href="#contacto" class="btn">Empezar ahora</a>
+      </div>
+
+      <div class="video-frame">
+        <div class="video-inner">
+          <span class="video-tag">Showreel</span>
+          <video class="video-portada" id="heroVideo" autoplay loop muted playsinline>
+            <source src="github.mp4" type="video/mp4">
+            Tu navegador no soporta videos HTML5.
+          </video>
+          <button class="sound-toggle" id="soundToggle">Activar Sonido 🔈</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="servicios" class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Nuestros Servicios</span>
+        <h2>Todo lo que tu marca necesita</h2>
+        <p class="muted">Soluciones integrales de contenido y estrategia para hacer crecer tu presencia online.</p>
+      </div>
+      <div class="services">
+        <div class="card">
+          <span class="icon">01</span>
+          <h3>Edición de Video</h3>
+          <p>Videos dinámicos, Reels y Shorts optimizados para captar atención en los primeros segundos.</p>
+        </div>
+        <div class="card">
+          <span class="icon">02</span>
+          <h3>Estrategia Digital</h3>
+          <p>Planes de contenido y gestión enfocados en hacer crecer tu comunidad y alcance visual.</p>
+        </div>
+        <div class="card">
+          <span class="icon">03</span>
+          <h3>Identidad Visual</h3>
+          <p>Paleta de colores, tipografías y diseño adaptado a la personalidad de tu negocio.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contacto" class="contact-section">
+      <div class="wrap">
+        <div class="contact-grid">
+          <div>
+            <span class="eyebrow">Contacto</span>
+            <h2>¿Hablamos de tu proyecto?</h2>
+            <p class="muted">Escríbenos y trabajemos juntos para llevar tu marca al siguiente nivel.</p>
+          </div>
+          <form class="contact-form" id="contactForm">
+            <div class="form-group">
+              <label for="name">Nombre</label>
+              <input type="text" id="name" required placeholder="Tu nombre">
+            </div>
+            <div class="form-group">
+              <label for="email">Correo electrónico</label>
+              <input type="email" id="email" required placeholder="tu@email.com">
+            </div>
+            <div class="form-group">
+              <label for="message">Mensaje</label>
+              <textarea id="message" required placeholder="Cuéntanos sobre tu proyecto..."></textarea>
+            </div>
+            <button type="submit" class="btn">Enviar mensaje</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-wrap">
+      <p>&copy; Impulse Studio. Todos los derechos reservados.</p>
+      <div class="footer-links">
+        <a href="#servicios">Servicios</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Control de Sonido del Video
+    const heroVideo = document.getElementById('heroVideo');
+    const soundToggle = document.getElementById('soundToggle');
+
+    if (heroVideo && soundToggle) {
+      soundToggle.addEventListener('click', () => {
+        if (heroVideo.muted) {
+          heroVideo.muted = false;
+          soundToggle.textContent = 'Silenciar 🔊';
+        } else {
+          heroVideo.muted = true;
+          soundToggle.textContent = 'Activar Sonido 🔈';
+        }
+      });
+    }
+
+    // Toggle Modo Oscuro / Claro con persistencia en localStorage
+    const themeToggle = document.getElementById('themeToggle');
+    const htmlEl = document.documentElement;
+
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      htmlEl.setAttribute('data-theme', savedTheme);
+      themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    }
+
+    if (themeToggle) {
+      themeToggle.addEventListener('click', () => {
+        const currentTheme = htmlEl.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        htmlEl.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+      });
+    }
+
+    // Menú Hamburguesa Móvil y cierre automático al hacer clic en enlaces
+    const hamburger = document.getElementById('hamburger');
+    const menu = document.getElementById('menu');
+    const menuLinks = document.querySelectorAll('.menu-link');
+
+    if (hamburger && menu) {
+      hamburger.addEventListener('click', () => {
+        const isOpen = menu.classList.toggle('active');
+        hamburger.classList.toggle('active', isOpen);
+        hamburger.setAttribute('aria-expanded', isOpen);
+      });
+
+      menuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          menu.classList.remove('active');
+          hamburger.classList.remove('active');
+          hamburger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+
+    // Envío del formulario de contacto
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('¡Gracias por tu mensaje! Te responderemos pronto.');
+        contactForm.reset();
+      });
+    }
+  </script>
+</body>
+</html>
